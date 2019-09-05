@@ -22,32 +22,32 @@ services:
   ports:
    - 27018:27017
   command: mongod --logpath=/dev/null # --quiet
- # users:
- #  container_name: "users"
- #  build:
- #   context: ./services/users
- #   dockerfile: Dockerfile
- #  ports:
- #   - "4001:4001"
- #  environment:
- #   - ENV=development
- #   - DB=mongodb://users_db:27017/users
- # user_notes:
- #  container_name: "user_notes"
- #  build:
- #    context: ./services/user_notes
- #    dockerfile: Dockerfile
- #  ports:
- #   - "4002:4002"
- #  environment:
- #   - ENV=development
- #   - DB=mongodb://user_notes_db:27017/user_notes
- # web:
- #  container_name: "web"
- #  build:
- #   context: ./services/web
- #   dockerfile: Dockerfile
- #  ports:
- #   - "4000:4000"
- #  environment:
- #   - ENV=development
+ users:
+  container_name: "users"
+  build:
+   context: ./services/users
+   dockerfile: Dockerfile
+  ports:
+   - "4001:4001"
+  environment:
+   - ENV=development
+   - DB=mongodb://users_db:27017/users
+ user_notes:
+  container_name: "user_notes"
+  build:
+    context: ./services/user_notes
+    dockerfile: Dockerfile
+  ports:
+   - "4002:4002"
+  environment:
+   - ENV=development
+   - DB=mongodb://user_notes_db:27017/user_notes
+ web:
+  container_name: "web"
+  build:
+   context: ./services/web
+   dockerfile: Dockerfile
+  ports:
+   - "4000:4000"
+  environment:
+   - ENV=development
