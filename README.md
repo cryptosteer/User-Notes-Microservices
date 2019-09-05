@@ -10,15 +10,19 @@ This is a small application which implements a Micro-services architecture using
 - user_notes: Api to handle the notes for each user, also made with flask
 - user_notes_db: Mongo database service for users_notes
 
-## Features
+## API Reference
 
-**Manage the user's data with the users API**
+### Manage the user's data with the users API**
+
+**/v1/users**
 
 http://localhost:4001/v1/users
 
 *Methods allowed: Get*
 
 Fetch the list of registered users, it allow filtering if the URL parameters are sent like in this example: http://localhost:4001/v1/users?email=jesus@steer.com
+
+**/v1/user**
 
 http://localhost:4001/v1/user
 
@@ -66,15 +70,19 @@ It's used to update data for existing users. To send Patch request please use fo
 }
 ```
 
-**Manage the notes data for users with the user_notes API**
+### Manage the notes data for users with the user_notes API
 
-**http://localhost:4002/v1/user_notes**
+**/v1/user_notes**
+
+http://localhost:4002/v1/user_notes
 
 *Methods allowed: Get*
 
 Fetch the list of notes for an specific user, it required to send the email parameter like http://localhost:4002/v1/user_notes?email=jesus3@steer.com
 
-**http://localhost:4002/v1/user_note**
+**/v1/user_note**
+
+http://localhost:4002/v1/user_note
 
 *Methods allowed: Get, Post, Patch, Delete*
 
