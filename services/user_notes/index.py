@@ -22,8 +22,7 @@ class JSONEncoder(json.JSONEncoder):
 app = Flask(__name__)
 CORS(app)
 # app.config['MONGO_URI'] = os.environ.get('DB')
-app.config['MONGO_URI'] = 'mongodb://user_notes_db:27017/user_notes'
-# app.config['MONGO_URI'] = 'mongodb://localhost:27018/user_notes'
+app.config['MONGO_URI'] = 'mongodb://localhost:27018/user_notes'
 mongo = PyMongo(app)
 
 # use the modified encoder class to handle ObjectId & datetime object while jsonifying the response.
@@ -54,17 +53,13 @@ def user_note():
     if request.method == 'POST':
         email = data.get('email', None)
         if email is not None:
-            user_exists = check_user_exists(email)
-            if user_exists:
-                cleaned = {}
-                cleaned['email'] = email
-                cleaned['title'] = data.get('title', '')
-                cleaned['body'] = data.get('body', '')
-                cleaned['timestamp'] = datetime.datetime.now()
-                mongo.db.user_notes.insert_one(cleaned)
-                return jsonify({'ok': True, 'message': 'User note created successfully!'}), 200
-            else:
-                return jsonify({'ok': False, 'message': 'User not registered!'}), 400
+            cleaned = {}
+            cleaned['email'] = email
+            cleaned['title'] = data.get('title', '')
+            cleaned['body'] = data.get('body', '')
+            cleaned['timestamp'] = datetime.datetime.now()
+            mongo.db.user_notes.insert_one(cleaned)
+            return jsonify({'ok': True, 'message': 'User note created successfully!'}), 200
         else:
             return jsonify({'ok': False, 'message': 'Bad request parameters!'}), 400
 
@@ -87,16 +82,6 @@ def user_note():
         else:
             return jsonify({'ok': False, 'message': 'Bad request parameters!'}), 400
 
-
-def check_user_exists(email):
-    url = 'http://localhost:4001/v1/user'
-    params = {'email': email}
-    request = get(url = url, params = params)
-    data = request.json()
-    if data is not None:
-        return True
-    else:
-        return False
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=4002)
