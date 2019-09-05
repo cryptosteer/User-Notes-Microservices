@@ -356,7 +356,8 @@
         });
     }
 
-    function edit_user(email) {
+    function edit_user() {
+        var email = $('.current_user_span').html().trim();
         var data = {}
         data_item = $('#edit_user_name').val().trim();
         if(data_item !== '') {data["name"] = data_item;}
