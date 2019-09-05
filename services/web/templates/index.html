@@ -1,0 +1,493 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row m-row--full-height">
+        <div class="col-sm-6">
+            <div class="m-portlet m-portlet--full-height m-portlet--fit ">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <h3 class="m-portlet__head-text">
+                                Users
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="m-portlet__head-tools">
+                        <ul class="m-portlet__nav">
+                            <li class="m-portlet__nav-item">
+                                <a onclick="show_add_user()" m-portlet-tool="toggle" class="m-portlet__nav-link m-portlet__nav-link--icon btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Create user"><i class="la la-plus"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
+                    <div class="m_datatable" id="datatable_users"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div id="add_user" class="m-portlet m-portlet--tab sec-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                Add User
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <form class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group">
+                            <label>Email address</label>
+                            <input type="email" class="form-control m-input" id="add_user_email">
+                            <span class="m-form__help">Email should be unique.</span>
+                        </div>
+                        <div class="form-group m-form__group">
+                            <label>Name</label>
+                            <input type="text" class="form-control m-input" id="add_user_name">
+                        </div>
+                        <div class="form-group m-form__group">
+                            <label>Lastname</label>
+                            <input type="text" class="form-control m-input" id="add_user_lastname">
+                        </div>
+                        <div class="form-group m-form__group">
+                            <label>Gender</label>
+                            <select class="form-control m-input" id="add_user_gender">
+                                <option value=""></option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group m-form__group">
+                            <label>Age</label>
+                            <input type="text" class="form-control m-input" id="add_user_age">
+                        </div>
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <button type="reset" class="btn btn-primary" onclick="add_user()">Submit</button>
+                            <button type="reset" class="btn btn-secondary" onclick="hide_sec_portlets()">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="add_note" class="m-portlet m-portlet--tab sec-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                Add Note
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <form class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group">
+                            <div class="alert m-alert m-alert--default" role="alert">
+                                For user: <spam class="current_user_span"></spam>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group">
+                            <label>Title</label>
+                            <input type="text" class="form-control m-input" id="add_note_title">
+                        </div>
+                        <div class="form-group m-form__group">
+                            <label>Body</label>
+                            <textarea class="form-control m-input" id="add_note_body" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <button type="reset" class="btn btn-primary" onclick="add_note()">Submit</button>
+                            <button type="reset" class="btn btn-secondary" onclick="hide_sec_portlets()">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="view_notes" class="m-portlet m-portlet--tab sec-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                View Notes
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
+                    <div class="alert m-alert m-alert--default" role="alert">
+                        For user: <spam class="current_user_span"></spam>
+                    </div>
+                    <div id="user_notes" class="m-widget3 m--margin-top-30">
+                    </div>
+                </div>
+            </div>
+            <div id="edit_user" class="m-portlet m-portlet--tab sec-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                Edit User
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <form class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group">
+                            <div class="alert m-alert m-alert--default" role="alert">
+                                For user: <spam class="current_user_span"></spam>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group">
+                            <label>Name</label>
+                            <input type="text" class="form-control m-input" id="edit_user_name">
+                        </div>
+                        <div class="form-group m-form__group">
+                            <label>Lastname</label>
+                            <input type="text" class="form-control m-input" id="edit_user_lastname">
+                        </div>
+                        <div class="form-group m-form__group">
+                            <label>Gender</label>
+                            <select class="form-control m-input" id="edit_user_gender">
+                                <option value="">[ Choose an option ]</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group m-form__group">
+                            <label>Age</label>
+                            <input type="text" class="form-control m-input" id="edit_user_age">
+                        </div>
+                    </div> 
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <button type="reset" class="btn btn-primary" onclick="edit_user()">Submit</button>
+                            <button type="reset" class="btn btn-secondary" onclick="hide_sec_portlets()">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $(function() {
+            hide_sec_portlets();
+            var datatable = $('#datatable_users').mDatatable({
+            data: {
+                type: 'remote',
+                source: {
+                    read: {
+                        url: 'http://localhost:4001/v1/users',
+                        method: 'GET',
+                        params: {
+                            //email: 'jesus@steer.com',
+                        },
+                    }
+                },
+                pageSize: 10,
+                saveState: {
+                    cookie: false,
+                    webstorage: true
+                },
+                serverPaging: false,
+                serverFiltering: true,
+                serverSorting: false
+            },
+            layout: {
+                theme: 'default',
+                class: '',
+                footer: false
+            },
+            sortable: true,
+            filterable: false,
+            pagination: true,
+            columns: [{
+                field: "email",
+                sortable: 'asc',
+                title: "Email",
+                width: 150,
+            }, {
+                field: "Actions",
+                width: 150,
+                title: "Actions",
+                sortable: false,
+                overflow: 'visible',
+                template: function(row, index, datatable) {
+                    var dropup = (datatable.getPageSize() - index) <= 4 ? 'dropup' : '';
+                    return '\
+                        <a onclick="show_add_note(\'' + row.email + '\')" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="New note">\
+                            <i class="la la-plus-circle"></i>\
+                        </a>\
+                        <a onclick="show_view_notes(\'' + row.email + '\')" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View notes">\
+                            <i class="la la-comments"></i>\
+                        </a>\
+                        <a onclick="show_edit_user(\'' + row.email + '\')" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit user">\
+                            <i class="la la-edit"></i>\
+                        </a>\
+                        <a onclick="delete_user(\'' + row.email + '\')" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete user">\
+                            <i class="la la-trash"></i>\
+                        </a>\
+                    ';
+                }
+            }]
+        });
+    });
+
+    function hide_sec_portlets() {
+        $('.sec-portlet').each((index, element)=> {
+            $(element).hide();
+        });
+        var input_list = ['#add_user_email', '#add_user_name', '#add_user_lastname', '#add_user_gender', '#add_user_age', '#add_note_title', '#add_note_body', '#edit_user_name', '#edit_user_lastname', '#edit_user_gender', '#edit_user_age'];
+        input_list.forEach((element) => {
+            $(element).val('');
+        });
+    }
+
+    function add_user() {
+        var data = {};
+        var data_item = $('#add_user_email').val().trim();
+        if(data_item !== '') {data["email"] = data_item;} 
+        else {
+            alert("Email is required.");
+            return;
+        }
+        data_item = $('#add_user_name').val().trim();
+        if(data_item !== '') {data["name"] = data_item;} 
+        data_item = $('#add_user_lastname').val().trim();
+        if(data_item !== '') {data["lastname"] = data_item;} 
+        data_item = $('#add_user_gender').val().trim();
+        if(data_item !== '') {data["gender"] = data_item;} 
+        data_item = $('#add_user_age').val().trim();
+        if(data_item !== '') {data["age"] = data_item;} 
+
+        mApp.blockPage({
+            overlayColor: '#000000',
+            type: 'loader',
+            state: 'success',
+            message: 'Please wait...'
+        });
+        $.ajax({
+            method: "POST",
+            url: "http://localhost:4001/v1/user",
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: 'json'
+        }).done(function() {
+            $('#datatable_users').mDatatable().reload();
+        }).fail(function() {
+            alert("An error happened.");
+        }).always(function() {
+            mApp.unblockPage();
+            hide_sec_portlets();
+        });
+    }
+
+    function add_note() {
+        var data = {};
+        var data_item = $('.current_user_span').html().trim();
+        if(data_item !== '') {data["email"] = data_item;} 
+        data_item = $('#add_note_title').val().trim();
+        if(data_item !== '') {data["title"] = data_item;} 
+        data_item = $('#add_note_body').val().trim();
+        if(data_item !== '') {data["body"] = data_item;} 
+
+
+        mApp.blockPage({
+            overlayColor: '#000000',
+            type: 'loader',
+            state: 'success',
+            message: 'Please wait...'
+        });
+        $.ajax({
+            method: "POST",
+                url: "http://localhost:4002/v1/user_note",
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: 'json'
+        }).done(function() {
+            
+        }).fail(function() {
+            alert("An error happened.");
+        }).always(function() {
+            var email = $('.current_user_span').html().trim();
+            mApp.unblockPage();
+            hide_sec_portlets();
+            show_view_notes(email);
+        });
+    }
+
+    function load_user() {
+        mApp.blockPage({
+            overlayColor: '#000000',
+            type: 'loader',
+            state: 'success',
+            message: 'Please wait...'
+        });
+        $.ajax({
+            method: "GET",
+            url: "http://localhost:4001/v1/user",
+            data: {email: $('.current_user_span').html()}
+        }).done(function(data) {
+            $('#edit_user_name').val(data["name"]);
+            $('#edit_user_lastname').val(data["lastname"]);
+            $('#edit_user_gender').val(data["gender"]);
+            $('#edit_user_age').val(data["age"]);
+        }).fail(function() {
+            alert("An error happened.");
+        }).always(function() {
+            mApp.unblockPage();
+        });
+    }
+
+    function edit_user(email) {
+        var data = {}
+        data_item = $('#edit_user_name').val().trim();
+        if(data_item !== '') {data["name"] = data_item;}
+        data_item = $('#edit_user_lastname').val().trim();
+        if(data_item !== '') {data["lastname"] = data_item;} 
+        data_item = $('#edit_user_gender').val().trim();
+        if(data_item !== '') {data["gender"] = data_item;} 
+        data_item = $('#edit_user_age').val().trim();
+        if(data_item !== '') {data["age"] = data_item;} 
+
+        var query = {
+            "query": {
+                email: email
+            },
+            "payload": data
+        };
+
+
+        mApp.blockPage({
+            overlayColor: '#000000',
+            type: 'loader',
+            state: 'success',
+            message: 'Please wait...'
+        });
+        $.ajax({
+            method: "PATCH",
+            url: "http://localhost:4001/v1/user",
+            data: JSON.stringify(query),
+            contentType: 'application/json',
+            dataType: 'json'
+        }).done(function() {
+
+        }).fail(function() {
+            alert("An error happened.");
+        }).always(function() {
+            mApp.unblockPage();
+            hide_sec_portlets();
+        });
+    }
+
+    function delete_user(email) {
+        hide_sec_portlets();
+        var result = confirm("Want to delete " + email +"?");
+        if (result) {
+            var data = {email: email};
+
+            mApp.blockPage({
+                overlayColor: '#000000',
+                type: 'loader',
+                state: 'success',
+                message: 'Please wait...'
+            });
+            $.ajax({
+                method: "DELETE",
+                url: "http://localhost:4001/v1/user",
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                dataType: 'json'
+            }).done(function() {
+                $('#datatable_users').mDatatable().reload();
+            }).fail(function() {
+                alert("An error happened.");
+            }).always(function() {
+                mApp.unblockPage();
+            });
+        }
+    }
+
+    function load_notes(email) {
+        mApp.blockPage({
+            overlayColor: '#000000',
+            type: 'loader',
+            state: 'success',
+            message: 'Please wait...'
+        });
+        $.ajax({
+            method: "GET",
+            url: "http://localhost:4002/v1/user_notes",
+            data: {email: email}
+        }).done(function(data) {
+            $("#user_notes").html('');
+            data.forEach((element)=>{
+                var string_temp = `
+                    <div class="m-widget3__item">
+                        <div class="m-widget3__header">
+                            <div class="m-widget3__info">
+                                <span class="m-widget3__username">
+                                    ${element.title}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="m-widget3__body">
+                            <p class="m-widget3__text">
+                                    ${element.body}
+                            </p>
+                        </div>
+                    </div>`
+                $("#user_notes").append(string_temp);
+            })
+        }).fail(function() {
+            alert("An error happened.");
+        }).always(function() {
+            mApp.unblockPage();
+        });
+
+    }
+
+    function show_add_user() {
+        hide_sec_portlets();
+        $("#add_user").show();
+    }
+
+    function show_add_note(email) {
+        hide_sec_portlets();
+        $(".current_user_span").html(email);
+        $("#add_note").show();
+    }
+
+    function show_view_notes(email) {
+        hide_sec_portlets();
+        $(".current_user_span").html(email);
+        load_notes(email);
+        $("#view_notes").show();
+    }
+
+    function show_edit_user(email) {
+        hide_sec_portlets();
+        $(".current_user_span").html(email);
+        load_user(email);
+        $("#edit_user").show();
+    }
+
+    </script>
+{% endblock %}
