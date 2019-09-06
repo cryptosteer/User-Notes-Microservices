@@ -12,7 +12,7 @@ This is a small application which implements a Micro-services architecture using
 
 ## API Reference
 
-### Manage the user's data with the users API**
+### Manage the user's data with the users API
 
 **/v1/users**
 
@@ -115,13 +115,13 @@ To run this project locally you need Docker and Docker Compose, to install it yo
 
 ## Installation
 
-Clone the files locally. Move to the root directory using the console and run this command and wait for the containers to get ready and running.:
+Clone the files locally. Move to the root directory using the console and run this command and wait for the containers to get ready and running.
 
 ```console
 foo@bar:~$ docker-compose up --build
 ```
 
-## Running the application:
+## Running the application
 
 Please, run the docker containers:
 
