@@ -4,7 +4,7 @@ This is a small application which implements a Micro-services architecture using
 
 **Containers**
 
-- web: Serves the static website that consumes the Api's, and the user to interact with the data
+- web: Serves the static website that allow the user to interact with the data consuming Api endpoints
 - users: Api for users management made with flask
 - users_db: Mongo database service for users
 - user_notes: Api to handle the notes for each user, also made with flask
@@ -106,14 +106,14 @@ It's used to create user notes in the database. To send the data for Post method
 
 Others request methods are used similar to the user API.
 
-## Requirements
+## Prerequisites
 
 To run this project locally you need Docker and Docker Compose, to install it you can follow the instructions in these links:
 
 - https://docs.docker.com/install/
 - https://docs.docker.com/compose/install/
 
-## Prerequisites
+## Installation
 
 Clone the files locally. Move to the root directory using the console and run this command and wait for the containers to get ready and running.:
 
@@ -133,6 +133,6 @@ foo@bar:~$ docker-compose up
 
 Open a browser and access to: http://localhost:4000/
 
-Should be able to see the user list, please add some users. You can also edit or delete them.
+There is an empty user list, please add some users, you can also edit or delete them.
 
-With some users created you can create some notes using the 'New node' icon in each row.
+With some users created you can create some notes using the 'New note' icons for each row.
